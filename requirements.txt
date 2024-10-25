@@ -1,0 +1,4 @@
+flask
+flask_sqlalchemy
+sqlite3
+flask_restful
