@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, reqparse, Resource, fields, marshal_with, abort
+from flask_cors import CORS
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db' #configures databse path sqlite in this case
 api=Api(app)
+cors=CORS(app, resources={r"/todos/*": {"origins": "*"}}) #allows cross origin requests
 db=SQLAlchemy(app)
 
 
