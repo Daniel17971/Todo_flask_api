@@ -42,7 +42,7 @@ class Todos(Resource):
         db.session.add(todo)
         db.session.commit()
         return TodoModel.query.all(), 201 #returns the todo list and the status code 201, default is 200
-
+    
 class Todo(Resource):
     @marshal_with(todoFields)
     def get(self, id):
@@ -62,9 +62,17 @@ class Todo(Resource):
             todo.completed=args['completed']
         db.session.commit()
         return todo
+    @marshal_with(todoFields)
+    def delete(self,id):
+        todo=TodoModel.query.filter_by(id=id).first()
+        if not todo:
+            abort(404, message="Todo not found")
+        db.session.delete(todo)
+        db.session.commit()
+        return todo
 
 api.add_resource(Todos, '/todos')
-api.add_resource(Todo, "/todo/<int:id>")
+api.add_resource(Todo, "/todos/<int:id>")
 
 @app.route("/")
 def home():
